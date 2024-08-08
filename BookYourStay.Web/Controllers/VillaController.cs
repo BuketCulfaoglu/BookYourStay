@@ -27,6 +27,13 @@ namespace BookYourStay.Web.Controllers
         [HttpPost]
         public IActionResult Create(Villa villa)
         {
+            //Custom Validation
+            if (villa.Name.Equals(villa.Description))
+            {
+                ModelState.AddModelError("","The Description cannot exactly match the Name.");      //validation-summary
+                ModelState.AddModelError("name","The Description cannot exactly match the Name.");  //name property
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Villas.Add(villa);
