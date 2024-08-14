@@ -43,5 +43,22 @@ namespace BookYourStay.Web.Controllers
             }
             return View();
         }
+
+      
+        public IActionResult Update(int villaId)
+        {
+            if (ModelState.IsValid)
+            {
+                Villa? updatedVilla = _context.Villas.FirstOrDefault((v => v.Id == villaId));
+
+                if (updatedVilla != null)
+                {
+                    return View(updatedVilla);
+                }
+            }
+
+            return RedirectToAction("Error", "Home");
+        }
+
     }
 }
