@@ -30,8 +30,8 @@ namespace BookYourStay.Web.Controllers
             //Custom Validation
             if (villa.Name.Equals(villa.Description))
             {
-                ModelState.AddModelError("","The Description cannot exactly match the Name.");      //validation-summary
-                ModelState.AddModelError("name","The Description cannot exactly match the Name.");  //name property
+                ModelState.AddModelError("", "The Description cannot exactly match the Name.");      //validation-summary
+                ModelState.AddModelError("name", "The Description cannot exactly match the Name.");  //name property
             }
 
             if (ModelState.IsValid)
@@ -44,7 +44,7 @@ namespace BookYourStay.Web.Controllers
             return View();
         }
 
-      
+
         public IActionResult Update(int villaId)
         {
             if (ModelState.IsValid)
@@ -60,5 +60,47 @@ namespace BookYourStay.Web.Controllers
             return RedirectToAction("Error", "Home");
         }
 
+        [HttpPost]
+        public IActionResult Update(Villa villa)
+        {
+
+            if (ModelState.IsValid)
+            {
+                _context.Villas.Update(villa);
+                _context.SaveChanges();
+
+                return RedirectToAction("Index", "Villa");
+            }
+            return View();
+        }
+
+
+        public IActionResult Delete(int villaId)
+        {
+            Villa? villa = _context.Villas.FirstOrDefault(v => v.Id == villaId);
+            if (villa != null)
+            {
+                return View(villa);
+            }
+
+            return RedirectToAction("Error", "Home");
+
+        }
+
+        [HttpPost]
+        public IActionResult Delete(Villa villa)
+        {
+            Villa? villaFromDb = _context.Villas.FirstOrDefault(v => v.Id == villa.Id);
+
+            if (villaFromDb is not null)
+            {
+                _context.Villas.Remove(villaFromDb);
+                _context.SaveChanges();
+
+                return RedirectToAction("Index", "Villa");
+            }
+            return View();
+
+        }
     }
 }
