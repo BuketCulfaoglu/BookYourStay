@@ -25,22 +25,16 @@ namespace BookYourStay.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Villa villa)
+        public IActionResult Create(VillaNumber villaNumber)
         {
-            //Custom Validation
-            if (villa.Name.Equals(villa.Description))
-            {
-                ModelState.AddModelError("", "The Description cannot exactly match the Name.");      //validation-summary
-                ModelState.AddModelError("name", "The Description cannot exactly match the Name.");  //name property
-            }
-
+            //ModelState.Remove("Villa");
             if (ModelState.IsValid)
             {
-                _context.Villas.Add(villa);
+                _context.VillaNumbers.Add(villaNumber);
                 _context.SaveChanges();
-                TempData["success"] = "The villa has been created successfully.";
+                TempData["success"] = "The villa number has been created successfully.";
 
-                return RedirectToAction("Index", "Villa");
+                return RedirectToAction("Index", "VillaNumber");
             }
             return View();
         }
