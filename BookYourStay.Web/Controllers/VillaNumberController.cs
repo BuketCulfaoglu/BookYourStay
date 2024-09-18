@@ -1,6 +1,7 @@
 ﻿using BookYourStay.Domain.Entities;
 using BookYourStay.Infastructure.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BookYourStay.Web.Controllers
 {
@@ -21,6 +22,13 @@ namespace BookYourStay.Web.Controllers
 
         public IActionResult Create()
         {
+            IEnumerable<SelectListItem> list = _context.Villas.ToList().Select(v => new SelectListItem()
+            {
+                Text = v.Name,
+                Value = v.Id.ToString()
+            });
+            ViewData["VillaList"] = list;
+
             return View();
         }
 
