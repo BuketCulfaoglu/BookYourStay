@@ -95,33 +95,42 @@ namespace BookYourStay.Web.Controllers
         }
 
 
-        public IActionResult Delete(int villaId)
+        public IActionResult Delete(int villaNumberId)
         {
-            Villa? villa = _context.Villas.FirstOrDefault(v => v.Id == villaId);
-            if (villa != null)
+            VillaNumberVM villaNumberVM = new()
             {
-                return View(villa);
-            }
+                VillaList = _context.Villas.ToList().Select(u => new SelectListItem()
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString()
+                }),
 
-            return RedirectToAction("Error", "Home");
+                VillaNumber = _context.VillaNumbers.FirstOrDefault(u => u.Villa_Number == villaNumberId)
+            };
+
+            if (villaNumberVM.VillaNumber == null)
+                return RedirectToAction("Error", "Home");
+
+            return View(villaNumberVM);
 
         }
 
         [HttpPost]
-        public IActionResult Delete(Villa villa)
+        public IActionResult Delete(VillaNumber villaNumber)
         {
-            Villa? villaFromDb = _context.Villas.FirstOrDefault(v => v.Id == villa.Id);
+  
+            VillaNumber? villaNumberFromDb = _context.VillaNumbers.FirstOrDefault(v => v.Villa_Number == villaNumber.Villa_Number);
 
-            if (villaFromDb is not null)
+            if (villaNumberFromDb is not null)
             {
-                _context.Villas.Remove(villaFromDb);
+                _context.VillaNumbers.Remove(villaNumberFromDb);
                 _context.SaveChanges();
-                TempData["success"] = "The villa has been deleted successfully.";
+                TempData["success"] = "The villa number has been deleted successfully.";
 
-                return RedirectToAction("Index", "Villa");
+                return RedirectToAction("Index", "VillaNumber");
             }
 
-            TempData["error"] = "Failed to delete the villa.";
+            TempData["error"] = "Failed to delete the villa number.";
 
             return View();
 
