@@ -18,7 +18,7 @@ namespace BookYourStay.Web.Controllers
 
         public IActionResult Index()
         {
-            var villaNumbers = _context.VillaNumbers.Include(u=>u.Villa).ToList();
+            var villaNumbers = _context.VillaNumbers.Include(u => u.Villa).ToList();
             return View(villaNumbers);
         }
 
@@ -60,33 +60,37 @@ namespace BookYourStay.Web.Controllers
         }
 
 
-        public IActionResult Update(int villaId)
+        public IActionResult Update(int villaNumberId)
         {
-            if (ModelState.IsValid)
+            VillaNumberVM villaNumberVM = new()
             {
-                Villa? updatedVilla = _context.Villas.FirstOrDefault((v => v.Id == villaId));
-
-                if (updatedVilla != null)
+                VillaList = _context.Villas.ToList().Select(u => new SelectListItem()
                 {
-                    return View(updatedVilla);
-                }
-            }
+                    Text = u.Name,
+                    Value = u.Id.ToString()
+                }),
 
-            return RedirectToAction("Error", "Home");
+                VillaNumber = _context.VillaNumbers.FirstOrDefault(u => u.Villa_Number == villaNumberId)
+            };
+
+            if (villaNumberVM.VillaNumber == null)
+                return RedirectToAction("Error", "Home");
+
+            return View(villaNumberVM);
         }
 
         [HttpPost]
-        public IActionResult Update(Villa villa)
+        public IActionResult Update(VillaNumber villaNumber)
         {
-
             if (ModelState.IsValid)
             {
-                _context.Villas.Update(villa);
+                _context.VillaNumbers.Update(villaNumber);
                 _context.SaveChanges();
-                TempData["success"] = "The villa has been updated successfully.";
+                TempData["success"] = "The villa number has been updated successfully.";
 
-                return RedirectToAction("Index", "Villa");
+                return RedirectToAction("Index", "VillaNumber");
             }
+
             return View();
         }
 
