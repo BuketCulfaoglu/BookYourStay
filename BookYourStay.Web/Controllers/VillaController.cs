@@ -40,7 +40,7 @@ namespace BookYourStay.Web.Controllers
                 _context.SaveChanges();
                 TempData["success"] = "The villa has been created successfully.";
 
-                return RedirectToAction("Index", "Villa");
+                return RedirectToAction(nameof(Index));
             }
             return View();
         }
@@ -71,7 +71,7 @@ namespace BookYourStay.Web.Controllers
                 _context.SaveChanges();
                 TempData["success"] = "The villa has been updated successfully.";
 
-                return RedirectToAction("Index", "Villa");
+                return RedirectToAction(nameof(Index));
             }
             return View();
         }
@@ -100,7 +100,7 @@ namespace BookYourStay.Web.Controllers
                 _context.SaveChanges();
                 TempData["success"] = "The villa has been deleted successfully.";
 
-                return RedirectToAction("Index", "Villa");
+                return RedirectToAction(nameof(Index));
             }
 
             TempData["error"] = "Failed to delete the villa.";
