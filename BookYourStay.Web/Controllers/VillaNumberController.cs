@@ -3,6 +3,7 @@ using BookYourStay.Infastructure.Data;
 using BookYourStay.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookYourStay.Web.Controllers
 {
@@ -17,8 +18,8 @@ namespace BookYourStay.Web.Controllers
 
         public IActionResult Index()
         {
-            var villaNumberss = _context.VillaNumbers.ToList();
-            return View(villaNumberss);
+            var villaNumbers = _context.VillaNumbers.Include(u=>u.Villa).ToList();
+            return View(villaNumbers);
         }
 
         public IActionResult Create()
@@ -38,12 +39,20 @@ namespace BookYourStay.Web.Controllers
         [HttpPost]
         public IActionResult Create(VillaNumber villaNumber)
         {
-            //ModelState.Remove("Villa");
             if (ModelState.IsValid)
             {
-                _context.VillaNumbers.Add(villaNumber);
-                _context.SaveChanges();
-                TempData["success"] = "The villa number has been created successfully.";
+                bool villaExists = _context.VillaNumbers.Find(villaNumber.Villa_Number) != null;
+                //bool villaNumberExists = _context.VillaNumbers.Any(u => u.Villa_Number == villaNumber.Villa_Number);
+                if (villaExists)
+                {
+                    TempData["error"] = "The villa number already exists.";
+                }
+                else
+                {
+                    _context.VillaNumbers.Add(villaNumber);
+                    _context.SaveChanges();
+                    TempData["success"] = "The villa number has been created successfully.";
+                }
 
                 return RedirectToAction("Index", "VillaNumber");
             }
