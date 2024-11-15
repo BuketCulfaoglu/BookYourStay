@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BookYourStay.Domain.Entities;
+﻿using BookYourStay.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace BookYourStay.Infastructure.Data
+namespace BookYourStay.Infrastructure.Data
 {
     public class ApplicationDbContext : DbContext
     {

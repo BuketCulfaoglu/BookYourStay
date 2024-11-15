@@ -1,5 +1,5 @@
 ﻿using BookYourStay.Domain.Entities;
-using BookYourStay.Infastructure.Data;
+using BookYourStay.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookYourStay.Web.Controllers
