@@ -1,5 +1,5 @@
 ﻿using BookYourStay.Domain.Entities;
-using BookYourStay.Infastructure.Data;
+using BookYourStay.Infrastructure.Data;
 using BookYourStay.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
