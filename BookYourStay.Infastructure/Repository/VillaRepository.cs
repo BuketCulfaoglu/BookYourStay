@@ -1,11 +1,19 @@
 ﻿using BookYourStay.Application.Common.Interfaces;
 using BookYourStay.Domain.Entities;
 using System.Linq.Expressions;
+using BookYourStay.Infastructure.Data;
 
 namespace BookYourStay.Infastructure.Repository
 {
     public class VillaRepository : IVillaRepository
     {
+        private readonly ApplicationDbContext _context;
+
+        public VillaRepository(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         public IEnumerable<Villa> GetAll(Expression<Func<Villa, bool>>? filter = null, string? includeProperties = null)
         {
             throw new NotImplementedException();
@@ -18,22 +26,23 @@ namespace BookYourStay.Infastructure.Repository
 
         public void Add(Villa entity)
         {
-            throw new NotImplementedException();
+            _context.Add(entity);
         }
 
         public void Update(Villa entity)
         {
-            throw new NotImplementedException();
+            _context.Update(entity);
+            //_context.Villas.Update(entity);
         }
 
         public void Remove(Villa entity)
         {
-            throw new NotImplementedException();
+            _context.Remove(entity);
         }
 
         public void Save()
         {
-            throw new NotImplementedException();
+            _context.SaveChanges();
         }
     }
 }
