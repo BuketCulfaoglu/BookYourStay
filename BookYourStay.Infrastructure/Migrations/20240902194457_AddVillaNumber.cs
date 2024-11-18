@@ -4,7 +4,7 @@
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace BookYourStay.Infastructure.Migrations
+namespace BookYourStay.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class AddVillaNumber : Migration

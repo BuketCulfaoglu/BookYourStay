@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace BookYourStay.Infastructure.Migrations
+namespace BookYourStay.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240808172905_AddVillaToDb")]
-    partial class AddVillaToDb
+    [Migration("20240808173845_ModifyVilla1")]
+    partial class ModifyVilla1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,6 +39,9 @@ namespace BookYourStay.Infastructure.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -58,6 +61,38 @@ namespace BookYourStay.Infastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Villas");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
+                            ImageUrl = "https://placehold.co/600x400",
+                            Name = "Royal Villa",
+                            Occupancy = 4,
+                            Price = 200.0,
+                            Sqft = 550
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
+                            ImageUrl = "https://placehold.co/600x401",
+                            Name = "Premium Pool Villa",
+                            Occupancy = 4,
+                            Price = 300.0,
+                            Sqft = 550
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
+                            ImageUrl = "https://placehold.co/600x402",
+                            Name = "Luxury Pool Villa",
+                            Occupancy = 4,
+                            Price = 400.0,
+                            Sqft = 750
+                        });
                 });
 #pragma warning restore 612, 618
         }
