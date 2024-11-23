@@ -5,11 +5,11 @@ VisualStudioVersion = 17.10.34928.147
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookYourStay.Web", "BookYourStay.Web\BookYourStay.Web.csproj", "{B19BF1A9-2B6A-48B6-B503-132A6441F592}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookYourStay.Domain", "BookYourStay.Domain\BookYourStay.Domain.csproj", "{B38ECEA3-9E6C-4E46-99C1-93F90D33FE30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookYourStay.Domain", "BookYourStay.Domain\BookYourStay.Domain.csproj", "{B38ECEA3-9E6C-4E46-99C1-93F90D33FE30}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookYourStay.Application", "BookYourStay.Application\BookYourStay.Application.csproj", "{22E8AEF1-FBD8-483E-934A-3378D6F731E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookYourStay.Application", "BookYourStay.Application\BookYourStay.Application.csproj", "{22E8AEF1-FBD8-483E-934A-3378D6F731E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookYourStay.Infastructure", "BookYourStay.Infastructure\BookYourStay.Infastructure.csproj", "{971F7156-3391-46E1-89DB-356ED3928E13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookYourStay.Infrastructure", "BookYourStay.Infrastructure\BookYourStay.Infrastructure.csproj", "{855455DA-2F7D-48AC-8E12-D739C1AC4993}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{22E8AEF1-FBD8-483E-934A-3378D6F731E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22E8AEF1-FBD8-483E-934A-3378D6F731E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22E8AEF1-FBD8-483E-934A-3378D6F731E4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{971F7156-3391-46E1-89DB-356ED3928E13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{971F7156-3391-46E1-89DB-356ED3928E13}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{971F7156-3391-46E1-89DB-356ED3928E13}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{971F7156-3391-46E1-89DB-356ED3928E13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{855455DA-2F7D-48AC-8E12-D739C1AC4993}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{855455DA-2F7D-48AC-8E12-D739C1AC4993}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{855455DA-2F7D-48AC-8E12-D739C1AC4993}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{855455DA-2F7D-48AC-8E12-D739C1AC4993}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

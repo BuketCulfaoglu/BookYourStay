@@ -1,9 +1,9 @@
-﻿using BookYourStay.Application.Common.Interfaces;
+﻿using System.Linq.Expressions;
+using BookYourStay.Application.Common.Interfaces;
 using BookYourStay.Domain.Entities;
-using System.Linq.Expressions;
-using BookYourStay.Infastructure.Data;
+using BookYourStay.Infrastructure.Data;
 
-namespace BookYourStay.Infastructure.Repository
+namespace BookYourStay.Infrastructure.Repository
 {
     public class VillaRepository : IVillaRepository
     {

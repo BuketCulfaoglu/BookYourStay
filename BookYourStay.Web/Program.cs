@@ -1,6 +1,6 @@
 using BookYourStay.Application.Common.Interfaces;
-using BookYourStay.Infastructure.Data;
-using BookYourStay.Infastructure.Repository;
+using BookYourStay.Infrastructure.Data;
+using BookYourStay.Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
