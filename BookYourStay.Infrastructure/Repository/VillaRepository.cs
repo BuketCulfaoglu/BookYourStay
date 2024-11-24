@@ -2,6 +2,7 @@
 using BookYourStay.Application.Common.Interfaces;
 using BookYourStay.Domain.Entities;
 using BookYourStay.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookYourStay.Infrastructure.Repository
 {
@@ -16,12 +17,40 @@ namespace BookYourStay.Infrastructure.Repository
 
         public IEnumerable<Villa> GetAll(Expression<Func<Villa, bool>>? filter = null, string? includeProperties = null)
         {
-            throw new NotImplementedException();
+            IQueryable<Villa> query = _context.Set<Villa>();
+
+            if (filter != null)
+                query = query.Where(filter);
+
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                foreach (var property in includeProperties
+                             .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(property);
+                }
+            }
+
+            return query.ToList();
         }
 
-        public IEnumerable<Villa> Get(Expression<Func<Villa, bool>> filter, string? includeProperties = null)
+        public Villa Get(Expression<Func<Villa, bool>> filter, string? includeProperties = null)
         {
-            throw new NotImplementedException();
+            IQueryable<Villa> query = _context.Set<Villa>();
+
+            if (filter != null)
+                query = query.Where(filter);
+
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                foreach (var property in includeProperties
+                             .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(property);
+                }
+            }
+
+            return query.FirstOrDefault();
         }
 
         public void Add(Villa entity)
