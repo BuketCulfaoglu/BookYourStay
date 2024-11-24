@@ -34,7 +34,7 @@ namespace BookYourStay.Infrastructure.Repository
             return query.ToList();
         }
 
-        public Villa Get(Expression<Func<Villa, bool>> filter, string? includeProperties = null)
+        public Villa? Get(Expression<Func<Villa, bool>> filter, string? includeProperties = null)
         {
             IQueryable<Villa> query = _context.Set<Villa>();
 
@@ -49,7 +49,7 @@ namespace BookYourStay.Infrastructure.Repository
                 }
             }
 
-            return query.First();
+            return query.FirstOrDefault();
         }
 
         public void Add(Villa entity)
