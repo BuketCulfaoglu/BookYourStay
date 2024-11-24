@@ -34,12 +34,11 @@ namespace BookYourStay.Infrastructure.Repository
             return query.ToList();
         }
 
-        public Villa Get(Expression<Func<Villa, bool>> filter, string? includeProperties = null)
+        public Villa? Get(Expression<Func<Villa, bool>> filter, string? includeProperties = null)
         {
             IQueryable<Villa> query = _context.Set<Villa>();
 
-            if (filter != null)
-                query = query.Where(filter);
+            query = query.Where(filter);
 
             if (!string.IsNullOrEmpty(includeProperties))
             {
