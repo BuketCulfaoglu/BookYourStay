@@ -38,8 +38,7 @@ namespace BookYourStay.Infrastructure.Repository
         {
             IQueryable<Villa> query = _context.Set<Villa>();
 
-            if (filter != null)
-                query = query.Where(filter);
+            query = query.Where(filter);
 
             if (!string.IsNullOrEmpty(includeProperties))
             {
@@ -50,7 +49,7 @@ namespace BookYourStay.Infrastructure.Repository
                 }
             }
 
-            return query.FirstOrDefault();
+            return query.First();
         }
 
         public void Add(Villa entity)
