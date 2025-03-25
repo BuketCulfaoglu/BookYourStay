@@ -50,10 +50,6 @@
    ```
 6. Open the application in your browser at `http://localhost:5000`.
 
-## Contribution
-
-Contributions are welcome! Feel free to fork the repository and submit a pull request.
-
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
