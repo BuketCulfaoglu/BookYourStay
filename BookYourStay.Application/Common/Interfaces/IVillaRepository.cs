@@ -10,6 +10,6 @@ namespace BookYourStay.Application.Common.Interfaces
         void Add(Villa entity);
         void Update(Villa entity);
         void Remove(Villa entity);
-        void Save();
     }
 }
+ 

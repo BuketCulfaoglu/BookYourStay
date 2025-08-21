@@ -68,9 +68,5 @@ namespace BookYourStay.Infrastructure.Repository
             _context.Remove(entity);
         }
 
-        public void Save()
-        {
-            _context.SaveChanges();
-        }
     }
 }

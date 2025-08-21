@@ -7,16 +7,16 @@ namespace BookYourStay.Web.Controllers
 {
     public class VillaController : Controller
     {
-        private readonly IVillaRepository _villaRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public VillaController(IVillaRepository villaRepository)
+        public VillaController(IUnitOfWork unitOfWork)
         {
-            _villaRepository = villaRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public IActionResult Index()
         {
-            var villas = _villaRepository.GetAll();
+            var villas = _unitOfWork.Villa.GetAll();
             return View(villas);
         }
 
@@ -37,8 +37,8 @@ namespace BookYourStay.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                _villaRepository.Add(villa);
-                _villaRepository.Save();
+                _unitOfWork.Villa.Add(villa);
+                _unitOfWork.Save();
                 TempData["success"] = "The villa has been created successfully.";
 
                 return RedirectToAction(nameof(Index));
@@ -51,7 +51,7 @@ namespace BookYourStay.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                Villa? updatedVilla = _villaRepository.Get((v => v.Id == villaId));
+                Villa? updatedVilla = _unitOfWork.Villa.Get((v => v.Id == villaId));
 
                 if (updatedVilla != null)
                 {
@@ -68,8 +68,8 @@ namespace BookYourStay.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                _villaRepository.Update(villa);
-                _villaRepository.Save();
+                _unitOfWork.Villa.Update(villa);
+                _unitOfWork.Save();
                 TempData["success"] = "The villa has been updated successfully.";
 
                 return RedirectToAction(nameof(Index));
@@ -80,7 +80,7 @@ namespace BookYourStay.Web.Controllers
 
         public IActionResult Delete(int villaId)
         {
-            Villa? villa = _villaRepository.Get(v => v.Id == villaId);
+            Villa? villa = _unitOfWork.Villa.Get(v => v.Id == villaId);
             if (villa != null)
             {
                 return View(villa);
@@ -93,12 +93,12 @@ namespace BookYourStay.Web.Controllers
         [HttpPost]
         public IActionResult Delete(Villa villa)
         {
-            Villa? villaFromDb = _villaRepository.Get(v => v.Id == villa.Id);
+            Villa? villaFromDb = _unitOfWork.Villa.Get(v => v.Id == villa.Id);
 
             if (villaFromDb is not null)
             {
-                _villaRepository.Remove(villaFromDb);
-                _villaRepository.Save();
+                _unitOfWork.Villa.Remove(villaFromDb);
+                _unitOfWork.Save();
                 TempData["success"] = "The villa has been deleted successfully.";
 
                 return RedirectToAction(nameof(Index));
