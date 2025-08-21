@@ -13,3 +13,4 @@ namespace BookYourStay.Application.Common.Interfaces
         void Save();
     }
 }
+ 
