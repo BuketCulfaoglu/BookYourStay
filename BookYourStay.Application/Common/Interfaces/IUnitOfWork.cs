@@ -2,7 +2,8 @@
 {
     public interface IUnitOfWork
     {
-        IVillaRepository Villa { get; set; }
+        IVillaRepository Villa { get; }
+        IVillaNumberRepository VillaNumber { get; }
         void Save();
     }
 }

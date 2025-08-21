@@ -1,6 +1,5 @@
 ﻿using BookYourStay.Application.Common.Interfaces;
 using BookYourStay.Domain.Entities;
-using BookYourStay.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookYourStay.Web.Controllers
