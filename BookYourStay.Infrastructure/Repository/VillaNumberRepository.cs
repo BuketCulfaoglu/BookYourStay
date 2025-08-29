@@ -6,18 +6,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookYourStay.Infrastructure.Repository
 {
-    public class VillaRepository : Repository<Villa>, IVillaRepository
+    public class VillaNumberRepository : Repository<VillaNumber>, IVillaNumberRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public VillaRepository(ApplicationDbContext context) : base(context)
+        public VillaNumberRepository(ApplicationDbContext context) : base(context)
         {
             _context = context;
         }
 
-        public IEnumerable<Villa> GetAll(Expression<Func<Villa, bool>>? filter = null, string? includeProperties = null)
+        public IEnumerable<VillaNumber> GetAll(Expression<Func<VillaNumber, bool>>? filter = null, string? includeProperties = null)
         {
-            IQueryable<Villa> query = _context.Set<Villa>();
+            IQueryable<VillaNumber> query = _context.Set<VillaNumber>();
 
             if (filter != null)
                 query = query.Where(filter);
@@ -34,9 +34,9 @@ namespace BookYourStay.Infrastructure.Repository
             return query.ToList();
         }
 
-        public Villa? Get(Expression<Func<Villa, bool>> filter, string? includeProperties = null)
+        public VillaNumber? Get(Expression<Func<VillaNumber, bool>> filter, string? includeProperties = null)
         {
-            IQueryable<Villa> query = _context.Set<Villa>();
+            IQueryable<VillaNumber> query = _context.Set<VillaNumber>();
 
             query = query.Where(filter);
 
@@ -52,18 +52,17 @@ namespace BookYourStay.Infrastructure.Repository
             return query.FirstOrDefault();
         }
 
-        public void Add(Villa entity)
+        public void Add(VillaNumber entity)
         {
             _context.Add(entity);
         }
 
-        public void Update(Villa entity)
+        public void Update(VillaNumber entity)
         {
-            _context.Update(entity);
-            //_context.Villas.Update(entity);
+            _context.VillaNumbers.Update(entity);
         }
 
-        public void Remove(Villa entity)
+        public void Remove(VillaNumber entity)
         {
             _context.Remove(entity);
         }
