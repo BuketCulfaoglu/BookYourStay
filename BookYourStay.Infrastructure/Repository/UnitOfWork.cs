@@ -7,11 +7,13 @@ namespace BookYourStay.Infrastructure.Repository
     {
         private readonly ApplicationDbContext _context;
         public IVillaRepository Villa { get; set; }
+        public IVillaNumberRepository VillaNumber { get; set; }
 
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
             Villa = new VillaRepository(_context);
+            VillaNumber=new VillaNumberRepository(_context);
         }
 
         public void Save()
