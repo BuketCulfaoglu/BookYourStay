@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Http;
 
 namespace BookYourStay.Domain.Entities
 {
@@ -8,6 +10,8 @@ namespace BookYourStay.Domain.Entities
         [MaxLength(50)]
         public required string Name { get; set; }
         public string? Description { get; set; }
+        [NotMapped]
+        public IFormFile? Image { get; set; }
         [Display(Name="Image Url")]
         public string? ImageUrl { get; set; }
         [Display(Name = "Price per night")]
