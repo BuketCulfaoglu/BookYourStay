@@ -86,8 +86,31 @@ namespace BookYourStay.Web.Controllers
         public IActionResult Update(Villa villa)
         {
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && villa.Id > 0)
             {
+                if (villa.Image != null)
+                {
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(villa.Image.FileName);
+                    string imagePath = Path.Combine(_webHostEnvironment.WebRootPath, @"images\VillaImage");
+
+                    if (!string.IsNullOrEmpty(villa.ImageUrl))
+                    {
+                        var oldImagePath = Path.Combine(_webHostEnvironment.WebRootPath, villa.ImageUrl.TrimStart('\\'));
+
+                        if (System.IO.File.Exists(oldImagePath))
+                            System.IO.File.Delete(oldImagePath);
+                    }
+
+                    using (var fileStream = new FileStream(Path.Combine(imagePath, fileName), FileMode.Create))
+                    {
+                        villa.Image.CopyTo(fileStream);
+                    }
+
+                    villa.ImageUrl = @"\images\VillaImage\" + fileName;
+
+                }
+
+
                 _unitOfWork.Villa.Update(villa);
                 _unitOfWork.Save();
                 TempData["success"] = "The villa has been updated successfully.";
