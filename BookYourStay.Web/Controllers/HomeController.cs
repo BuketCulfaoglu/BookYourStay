@@ -19,7 +19,7 @@ namespace BookYourStayWeb.Controllers
         {
             HomeVM vm = new HomeVM()
             {
-                VillaList = _unitOfWork.Villa.GetAll(),
+                VillaList = _unitOfWork.Villa.GetAll(includeProperties: "VillaAmenities"),
                 Nights=1,
                 CheckInDate = DateOnly.FromDateTime(DateTime.Now),
             };
