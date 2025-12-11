@@ -1,4 +1,5 @@
 using BookYourStay.Application.Common.Interfaces;
+using BookYourStay.Domain.Entities;
 using BookYourStay.Infrastructure.Data;
 using BookYourStay.Infrastructure.Repository;
 using Microsoft.AspNetCore.Identity;
@@ -12,7 +13,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 //builder.Services.AddScoped<IVillaRepository, VillaRepository>();
