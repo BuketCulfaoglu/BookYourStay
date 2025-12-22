@@ -1,4 +1,5 @@
 ﻿using BookYourStay.Application.Common.Interfaces;
+using BookYourStay.Application.Common.Utilities;
 using BookYourStay.Domain.Entities;
 using BookYourStay.Web.ViewModels;
 using Microsoft.AspNetCore.Identity;
@@ -36,7 +37,23 @@ namespace BookYourStay.Web.Controllers
         }
         public IActionResult Register()
         {
-            return View();
+            if (!_roleManager.RoleExistsAsync(SD.Role_Admin).GetAwaiter().GetResult())
+            {
+                _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin)).GetAwaiter().GetResult();
+                _roleManager.CreateAsync(new IdentityRole(SD.Role_Customer)).GetAwaiter().GetResult();
+            }
+
+            RegisterVM registerVM = new()
+            {
+                RoleList = _roleManager.Roles.Select(r =>
+                    new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                    {
+                        Text = r.Name,
+                        Value = r.Name
+                    })
+            };
+
+            return View(registerVM);
         }
     }
 }
