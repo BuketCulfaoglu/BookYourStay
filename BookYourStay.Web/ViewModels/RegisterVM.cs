@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BookYourStay.Web.ViewModels
 {
@@ -21,5 +23,11 @@ namespace BookYourStay.Web.ViewModels
         [Display(Name = "Phone Number")]
         public string? PhoneNumber { get; set; }
         public string? ReturnUrl { get; set; }
+
+        public string? Role { get; set; }
+
+        [ValidateNever]
+        [Display(Name = "Select Role")]
+        public IEnumerable<SelectListItem>? RoleList { get; set; }
     }
 }
