@@ -1,9 +1,11 @@
 ﻿using BookYourStay.Application.Common.Interfaces;
 using BookYourStay.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookYourStay.Web.Controllers
 {
+    [Authorize]
     public class VillaController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
