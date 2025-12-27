@@ -1,13 +1,16 @@
 ﻿using BookYourStay.Application.Common.Interfaces;
+using BookYourStay.Application.Common.Utilities;
 using BookYourStay.Domain.Entities;
 using BookYourStay.Infrastructure.Data;
 using BookYourStay.Web.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookYourStay.Web.Controllers
 {
+    [Authorize(Roles = SD.Role_Admin)]
     public class AmenityController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
