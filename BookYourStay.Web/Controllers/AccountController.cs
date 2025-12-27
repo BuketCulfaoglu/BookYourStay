@@ -83,42 +83,45 @@ namespace BookYourStay.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterVM registerVm)
         {
-            ApplicationUser user = new()
+            if (ModelState.IsValid)
             {
-                UserName = registerVm.Email,
-                Email = registerVm.Email,
-                EmailConfirmed = true,
-                NormalizedEmail = registerVm.Email.ToUpper(),
-                Name = registerVm.Name,
-                PhoneNumber = registerVm.PhoneNumber,
-                CreatedAt = DateTime.Now
-            };
-
-            var result = await _userManager.CreateAsync(user, registerVm.Password);
-
-            if (result.Succeeded)
-            {
-                if (!string.IsNullOrEmpty(registerVm.Role) &&
-                    (registerVm.Role == SD.Role_Admin || registerVm.Role == SD.Role_Customer))
+                ApplicationUser user = new()
                 {
-                    await _userManager.AddToRoleAsync(user, registerVm.Role);
-                }
-                else
+                    UserName = registerVm.Email,
+                    Email = registerVm.Email,
+                    EmailConfirmed = true,
+                    NormalizedEmail = registerVm.Email.ToUpper(),
+                    Name = registerVm.Name,
+                    PhoneNumber = registerVm.PhoneNumber,
+                    CreatedAt = DateTime.Now
+                };
+
+                var result = await _userManager.CreateAsync(user, registerVm.Password);
+
+                if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(user, SD.Role_Customer);
+                    if (!string.IsNullOrEmpty(registerVm.Role) &&
+                        (registerVm.Role == SD.Role_Admin || registerVm.Role == SD.Role_Customer))
+                    {
+                        await _userManager.AddToRoleAsync(user, registerVm.Role);
+                    }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, SD.Role_Customer);
+                    }
+
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+
+                    if (string.IsNullOrEmpty(registerVm.ReturnUrl))
+                        return RedirectToAction("Index", "Home");
+
+                    return LocalRedirect(registerVm.ReturnUrl);
                 }
 
-                await _signInManager.SignInAsync(user, isPersistent: false);
-
-                if (string.IsNullOrEmpty(registerVm.ReturnUrl))
-                    return RedirectToAction("Index", "Home");
-
-                return LocalRedirect(registerVm.ReturnUrl);
-            }
-
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
             }
 
             registerVm = new()
