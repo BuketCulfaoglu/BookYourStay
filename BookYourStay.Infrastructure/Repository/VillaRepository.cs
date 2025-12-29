@@ -18,9 +18,5 @@ namespace BookYourStay.Infrastructure.Repository
             _context.Update(entity);
         }
 
-        public void Save()
-        {
-            _context.SaveChanges();
-        }
     }
 }

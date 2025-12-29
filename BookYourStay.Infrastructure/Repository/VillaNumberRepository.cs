@@ -1,24 +1,23 @@
-﻿using BookYourStay.Application.Common.Interfaces;
+﻿using System.Linq.Expressions;
+using BookYourStay.Application.Common.Interfaces;
+using BookYourStay.Domain.Entities;
 using BookYourStay.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace BookYourStay.Infrastructure.Repository
 {
-    public class Repository<T> : IRepository<T> where T : class
+    public class VillaNumberRepository : Repository<VillaNumber>, IVillaNumberRepository
     {
         private readonly ApplicationDbContext _context;
-        internal DbSet<T> dbSet;
 
-        public Repository(ApplicationDbContext context)
+        public VillaNumberRepository(ApplicationDbContext context) : base(context)
         {
             _context = context;
-            dbSet = _context.Set<T>();
         }
 
-        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProperties = null)
+        public IEnumerable<VillaNumber> GetAll(Expression<Func<VillaNumber, bool>>? filter = null, string? includeProperties = null)
         {
-            IQueryable<T> query = dbSet;
+            IQueryable<VillaNumber> query = _context.Set<VillaNumber>();
 
             if (filter != null)
                 query = query.Where(filter);
@@ -35,9 +34,9 @@ namespace BookYourStay.Infrastructure.Repository
             return query.ToList();
         }
 
-        public T? Get(Expression<Func<T, bool>> filter, string? includeProperties = null)
+        public VillaNumber? Get(Expression<Func<VillaNumber, bool>> filter, string? includeProperties = null)
         {
-            IQueryable<T> query = dbSet;
+            IQueryable<VillaNumber> query = _context.Set<VillaNumber>();
 
             query = query.Where(filter);
 
@@ -53,19 +52,20 @@ namespace BookYourStay.Infrastructure.Repository
             return query.FirstOrDefault();
         }
 
-        public void Add(T entity)
+        public void Add(VillaNumber entity)
         {
-            dbSet.Add(entity);
+            _context.Add(entity);
         }
 
-        public bool Any(Expression<Func<T, bool>>? filter)
+        public void Update(VillaNumber entity)
         {
-            return dbSet.Any(filter);
+            _context.VillaNumbers.Update(entity);
         }
 
-        public void Remove(T entity)
+        public void Remove(VillaNumber entity)
         {
-            dbSet.Remove(entity);
+            _context.Remove(entity);
         }
+
     }
 }

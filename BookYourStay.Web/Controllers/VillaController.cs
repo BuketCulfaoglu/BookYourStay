@@ -1,22 +1,25 @@
 ﻿using BookYourStay.Application.Common.Interfaces;
 using BookYourStay.Domain.Entities;
-using BookYourStay.Infrastructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookYourStay.Web.Controllers
 {
+    [Authorize]
     public class VillaController : Controller
     {
-        private readonly IVillaRepository _villaRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public VillaController(IVillaRepository villaRepository)
+        public VillaController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
         {
-            _villaRepository = villaRepository;
+            _unitOfWork = unitOfWork;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public IActionResult Index()
         {
-            var villas = _villaRepository.GetAll();
+            var villas = _unitOfWork.Villa.GetAll();
             return View(villas);
         }
 
@@ -37,8 +40,27 @@ namespace BookYourStay.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                _villaRepository.Add(villa);
-                _villaRepository.Save();
+                if (villa.Image != null)
+                {
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(villa.Image.FileName);
+                    string imagePath = Path.Combine(_webHostEnvironment.WebRootPath, @"images\VillaImage");
+
+                    using (var fileStream = new FileStream(Path.Combine(imagePath, fileName), FileMode.Create))
+                    {
+                        villa.Image.CopyTo(fileStream);
+                    }
+
+                    villa.ImageUrl = @"\images\VillaImage\" + fileName;
+
+                }
+                else
+                {
+                    villa.ImageUrl = "https://placehold.co/600x400";
+                }
+
+
+                _unitOfWork.Villa.Add(villa);
+                _unitOfWork.Save();
                 TempData["success"] = "The villa has been created successfully.";
 
                 return RedirectToAction(nameof(Index));
@@ -51,7 +73,7 @@ namespace BookYourStay.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                Villa? updatedVilla = _villaRepository.Get((v => v.Id == villaId));
+                Villa? updatedVilla = _unitOfWork.Villa.Get((v => v.Id == villaId));
 
                 if (updatedVilla != null)
                 {
@@ -66,10 +88,33 @@ namespace BookYourStay.Web.Controllers
         public IActionResult Update(Villa villa)
         {
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && villa.Id > 0)
             {
-                _villaRepository.Update(villa);
-                _villaRepository.Save();
+                if (villa.Image != null)
+                {
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(villa.Image.FileName);
+                    string imagePath = Path.Combine(_webHostEnvironment.WebRootPath, @"images\VillaImage");
+
+                    if (!string.IsNullOrEmpty(villa.ImageUrl))
+                    {
+                        var oldImagePath = Path.Combine(_webHostEnvironment.WebRootPath, villa.ImageUrl.TrimStart('\\'));
+
+                        if (System.IO.File.Exists(oldImagePath))
+                            System.IO.File.Delete(oldImagePath);
+                    }
+
+                    using (var fileStream = new FileStream(Path.Combine(imagePath, fileName), FileMode.Create))
+                    {
+                        villa.Image.CopyTo(fileStream);
+                    }
+
+                    villa.ImageUrl = @"\images\VillaImage\" + fileName;
+
+                }
+
+
+                _unitOfWork.Villa.Update(villa);
+                _unitOfWork.Save();
                 TempData["success"] = "The villa has been updated successfully.";
 
                 return RedirectToAction(nameof(Index));
@@ -80,7 +125,7 @@ namespace BookYourStay.Web.Controllers
 
         public IActionResult Delete(int villaId)
         {
-            Villa? villa = _villaRepository.Get(v => v.Id == villaId);
+            Villa? villa = _unitOfWork.Villa.Get(v => v.Id == villaId);
             if (villa != null)
             {
                 return View(villa);
@@ -93,12 +138,20 @@ namespace BookYourStay.Web.Controllers
         [HttpPost]
         public IActionResult Delete(Villa villa)
         {
-            Villa? villaFromDb = _villaRepository.Get(v => v.Id == villa.Id);
+            Villa? villaFromDb = _unitOfWork.Villa.Get(v => v.Id == villa.Id);
 
             if (villaFromDb is not null)
             {
-                _villaRepository.Remove(villaFromDb);
-                _villaRepository.Save();
+                if (!string.IsNullOrEmpty(villaFromDb.ImageUrl))
+                {
+                    var oldImagePath = Path.Combine(_webHostEnvironment.WebRootPath, villaFromDb.ImageUrl.TrimStart('\\'));
+
+                    if (System.IO.File.Exists(oldImagePath))
+                        System.IO.File.Delete(oldImagePath);
+                }
+
+                _unitOfWork.Villa.Remove(villaFromDb);
+                _unitOfWork.Save();
                 TempData["success"] = "The villa has been deleted successfully.";
 
                 return RedirectToAction(nameof(Index));
