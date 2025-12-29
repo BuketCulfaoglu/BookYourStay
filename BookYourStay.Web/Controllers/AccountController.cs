@@ -59,8 +59,9 @@ namespace BookYourStay.Web.Controllers
             return View(loginVm);
         }
 
-        public IActionResult Register()
+        public IActionResult Register(string returnUrl = null)
         {
+            returnUrl ??= Url.Content("~/");
             if (!_roleManager.RoleExistsAsync(SD.Role_Admin).GetAwaiter().GetResult())
             {
                 _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin)).GetAwaiter().GetResult();
@@ -74,7 +75,8 @@ namespace BookYourStay.Web.Controllers
                     {
                         Text = r.Name,
                         Value = r.Name
-                    })
+                    }),
+                ReturnUrl = returnUrl
             };
 
             return View(registerVM);
