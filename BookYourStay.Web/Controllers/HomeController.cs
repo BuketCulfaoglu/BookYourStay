@@ -20,10 +20,25 @@ namespace BookYourStayWeb.Controllers
             HomeVM vm = new HomeVM()
             {
                 VillaList = _unitOfWork.Villa.GetAll(includeProperties: "VillaAmenities"),
-                Nights=1,
+                Nights = 1,
                 CheckInDate = DateOnly.FromDateTime(DateTime.Now),
             };
+
             return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult Index(HomeVM homeVM)
+        {
+            homeVM.VillaList = _unitOfWork.Villa.GetAll(includeProperties: "VillaAmenities");
+            foreach (var villa in homeVM.VillaList)
+            {
+                if (villa.Id % 2 == 0)
+                {
+                    villa.IsAvailable = false;
+                }
+            }
+            return View(homeVM);
         }
 
         public IActionResult Privacy()
