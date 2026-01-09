@@ -41,6 +41,28 @@ namespace BookYourStayWeb.Controllers
             return View(homeVM);
         }
 
+        public IActionResult GetVillasByDate(int nights, DateOnly checkInDate)
+        {
+            var villaList = _unitOfWork.Villa.GetAll(includeProperties: "VillaAmenities").ToList();
+
+            foreach (var villa in villaList)
+            {
+                if (villa.Id % 2 == 0)
+                {
+                    villa.IsAvailable = false;
+                }
+            }
+
+            HomeVM vm = new HomeVM()
+            {
+                VillaList = villaList,
+                Nights = nights,
+                CheckInDate = checkInDate
+            };
+
+            return View(vm);
+        }
+
         public IActionResult Privacy()
         {
             return View();
@@ -51,10 +73,5 @@ namespace BookYourStayWeb.Controllers
             return View();
         }
 
-        //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        //public IActionResult Error()
-        //{
-        //    return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        //}
     }
 }
