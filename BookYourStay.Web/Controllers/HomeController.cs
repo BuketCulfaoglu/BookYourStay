@@ -41,6 +41,7 @@ namespace BookYourStayWeb.Controllers
             return View(homeVM);
         }
 
+        [HttpPost]
         public IActionResult GetVillasByDate(int nights, DateOnly checkInDate)
         {
             var villaList = _unitOfWork.Villa.GetAll(includeProperties: "VillaAmenities").ToList();
@@ -60,7 +61,7 @@ namespace BookYourStayWeb.Controllers
                 CheckInDate = checkInDate
             };
 
-            return View(vm);
+            return PartialView("_VillaListPartial", vm);
         }
 
         public IActionResult Privacy()
@@ -72,6 +73,5 @@ namespace BookYourStayWeb.Controllers
         {
             return View();
         }
-
     }
 }
