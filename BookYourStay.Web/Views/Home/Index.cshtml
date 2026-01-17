@@ -24,9 +24,10 @@
             <span class="visually-hidden">Next</span>
         </button>
     </div>
-    <form method="post" style="background-color:black">
-        <div class="row p-0 mx-0 py-4">
+    <form method="post" style="background-color: black"
+          asp-action="GetVillasByDate" data-ajax-method="post" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#VillasList">
 
+        <div class="row p-0 mx-0 py-4">
             <div class="col-12 col-md-5  offset-md-1 pl-2  pr-2 pr-md-0">
                 <div class="form-group">
                     <label>Check In Date</label>
@@ -49,12 +50,10 @@
             <div class="col-4 col-md-2 pt-4 pr-2">
                 <div class="form-group">
                     <button type="submit" class="btn btn-success btn-block">
-                        <i class="bi bi-search"></i>  &nbsp; Check Availability
+                        <i class="bi bi-search"></i> &nbsp; Check Availability
                     </button>
-
                 </div>
             </div>
-
         </div>
 
         <partial name="_VillaListPartial" model="Model" />
