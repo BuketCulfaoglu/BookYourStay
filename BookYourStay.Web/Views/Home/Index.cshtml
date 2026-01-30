@@ -65,16 +65,11 @@
     <script type="text/javascript">
         function fnLoadVillaList() {
 
+            $('.spinner').show();
             var objData = {
                 checkInDate: $('input[name="CheckInDate"]').val(),
                 nights: $('#Nights').val()
             };
-
-            var checkInDate = $('input[name="CheckInDate"]').val();
-            if (checkInDate === "") {
-                toastr.error("Please select a check-in date.");
-                return;
-            }
 
             $.ajax({
                 url: '@Url.Action("GetVillasByDate", "Home")',
@@ -83,11 +78,17 @@
                 success: function (result) {
                     $('#VillasList').empty();
                     $('#VillasList').html(result);
+                    $('.spinner').hide();
+                },
+                failure: function (result) {
+                    toastr.error("An error occurred while fetching available villas.");
+                    $('.spinner').hide();
                 },
                 error: function () {
                     toastr.error("An error occurred while fetching available villas.");
+                    $('.spinner').hide();
                 }
             });
         }
     </script>
-}}
+}
