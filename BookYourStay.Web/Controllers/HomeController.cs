@@ -1,8 +1,6 @@
 using BookYourStay.Application.Common.Interfaces;
-using BookYourStayWeb.Models;
-using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 using BookYourStay.Web.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BookYourStayWeb.Controllers
 {
