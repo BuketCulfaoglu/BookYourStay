@@ -115,7 +115,7 @@ namespace BookYourStay.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("BookYourStay.Domain.Entities.ApplicationUser", b =>
+            modelBuilder.Entity("BookYourStay.Domain.Entities.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -558,7 +558,7 @@ namespace BookYourStay.Infrastructure.Migrations
 
             modelBuilder.Entity("BookYourStay.Domain.Entities.Booking", b =>
                 {
-                    b.HasOne("BookYourStay.Domain.Entities.ApplicationUser", "User")
+                    b.HasOne("BookYourStay.Domain.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -597,7 +597,7 @@ namespace BookYourStay.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("BookYourStay.Domain.Entities.ApplicationUser", null)
+                    b.HasOne("BookYourStay.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -606,7 +606,7 @@ namespace BookYourStay.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("BookYourStay.Domain.Entities.ApplicationUser", null)
+                    b.HasOne("BookYourStay.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -621,7 +621,7 @@ namespace BookYourStay.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BookYourStay.Domain.Entities.ApplicationUser", null)
+                    b.HasOne("BookYourStay.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -630,7 +630,7 @@ namespace BookYourStay.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("BookYourStay.Domain.Entities.ApplicationUser", null)
+                    b.HasOne("BookYourStay.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
