@@ -1,5 +1,7 @@
-﻿using BookYourStay.Application.Common.Interfaces;
+﻿using System.Security.Claims;
+using BookYourStay.Application.Common.Interfaces;
 using BookYourStay.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookYourStay.Web.Controllers
@@ -13,15 +15,25 @@ namespace BookYourStay.Web.Controllers
             _unitOfWork = unitOfWork;
         }
 
+        [Authorize]
         public IActionResult FinalizeBooking(int villaId, DateOnly checkInDate, int nights)
         {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            ApplicationUser user = _unitOfWork.User.Get(u => u.Id == userId);
+
             Booking booking = new()
             {
                 VillaId = villaId,
                 Villa = _unitOfWork.Villa.Get(u => u.Id == villaId, includeProperties: "VillaAmenities"),
                 CheckInDate = checkInDate,
                 Nights = nights,
-                CheckOutDate = checkInDate.AddDays(nights)
+                CheckOutDate = checkInDate.AddDays(nights),
+                UserId = userId,
+                Name = user.Name,
+                Phone = user.PhoneNumber,
+                Email = user.Email
             };
             booking.TotalCost = booking.Villa.Price * nights;
 
