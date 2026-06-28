@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using BookYourStay.Application.Common.Interfaces;
+using BookYourStay.Application.Common.Utilities;
 using BookYourStay.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -39,5 +40,34 @@ namespace BookYourStay.Web.Controllers
 
             return View(booking);
         }
-    }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult FinalizeBooking(Booking booking)
+        {
+            var villa = _unitOfWork.Villa.Get(u => u.Id == booking.VillaId);
+            booking.TotalCost = booking.Villa.Price * booking.Nights;
+
+            booking.Status = SD.StatusPending;
+            booking.BookingDate = DateOnly.FromDateTime(DateTime.Now);
+
+            _unitOfWork.Booking.Add(booking);
+            _unitOfWork.Save();
+
+            return RedirectToAction(nameof(BookingConfirmation), new { bookingId = booking.Id });
+        }
+
+        [Authorize]
+        public IActionResult BookingConfirmation(int bookingId)
+        {
+            //var booking = _unitOfWork.Booking.Get(u => u.Id == bookingId, includeProperties: "Villa");
+            //if (booking == null)
+            //{
+            //    return NotFound();
+            //}
+            //return View(booking);
+
+            return View(bookingId);
+
+        }
 }
